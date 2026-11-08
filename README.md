@@ -44,7 +44,7 @@ Other small addons for World of Warcraft: Forever, all free:
 
 ## Installing
 
-Copy this folder into `World of Warcraft\_forever_\Interface\AddOns\` as `ZoomPad`, restart the game, and enable ZoomPad on the character select screen.
+Install it from [CurseForge](https://www.curseforge.com/wow/addons/zoompad) (once approved) with the CurseForge app, or by hand: copy this folder into `World of Warcraft\_forever_\Interface\AddOns\` as `ZoomPad`, restart the game, and enable ZoomPad on the character select screen.
 
 ## Developing
 
