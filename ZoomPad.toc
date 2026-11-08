@@ -1,0 +1,12 @@
+## Interface: 16001
+## Title: ZoomPad
+## Notes: Big + and - buttons on screen that zoom the camera in and out. Made for the Steam Deck's touchscreen. Type /zoompad.
+## Author: bizzal70
+## Version: 0.1.0
+## SavedVariables: ZoomPadDB
+## IconTexture: Interface\Icons\INV_Misc_Spyglass_03
+## AddonCompartmentFunc: ZoomPad_OnAddonCompartmentClick
+
+Core.lua
+Pad.lua
+Options.lua
