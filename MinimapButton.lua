@@ -84,7 +84,10 @@ button:SetScript("OnLeave", function() GameTooltip:Hide() end)
 function ns.UpdateMinimapButton()
     if not ns.db then return end
     icon:SetDesaturated(not ns.PadVisible())
-    if ns.db.minimapButton then
+    -- Like the zoom buttons, the minimap button stays away while no
+    -- controller is connected (unless that setting is off).
+    local controllerOk = not ns.db.onlyController or ns.ControllerConnected()
+    if ns.db.minimapButton and controllerOk then
         Place()
         button:Show()
     else

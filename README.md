@@ -8,7 +8,7 @@ Forever's controller mode zooms only while you hold both bumpers and push the ri
 
 - **Tap** + to zoom in one step, or - to zoom out one step.
 - **Hold** either one to keep zooming until you lift your finger.
-- They only show while a **controller is connected** (a Steam Deck's own controls count), so they stay out of the way when you play with mouse and keyboard. Turn that off in the options or with `/zoompad always`.
+- They only show while a **controller is connected** (a Steam Deck's own controls count), so they stay out of the way when you play with mouse and keyboard; so does the minimap button. Turn that off in the options or with `/zoompad always`.
 - **Drag** either button to move the pair somewhere else. Lock them once they are where you want them, so a drag can never move them by accident.
 
 ## Options

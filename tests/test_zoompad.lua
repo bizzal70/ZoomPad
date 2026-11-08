@@ -66,10 +66,10 @@ local mbIcon = ns.MinimapButton().icon
 local grey
 mbIcon.SetDesaturated = function(_, v) grey = v end
 ns.UpdateMinimapButton()
-check(grey == true, "and the minimap button's icon is grey")
+check(not ns.MinimapButton():IsShown(), "and the minimap button is hidden too")
 DEVICES = { 1 }
 Fire("GAME_PAD_CONNECTED", 1)
-check(pad:IsShown(), "connecting a controller (or a Steam Deck's controls) brings them back")
+check(pad:IsShown() and ns.MinimapButton():IsShown(), "connecting a controller (or a Steam Deck's controls) brings them and the minimap button back")
 DEVICES = {}
 Fire("GAME_PAD_DISCONNECTED", 1)
 SlashCmdList.ZOOMPAD("always")
