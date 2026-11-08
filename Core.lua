@@ -34,6 +34,8 @@ local defaults = {
     step = "medium",
     size = "medium",
     point = nil,   -- { point, relativePoint, x, y } once moved
+    minimapButton = true,
+    minimapAngle = 3.6,   -- left of the minimap's top, clear of most other buttons
 }
 
 function ns.Print(msg)
@@ -78,6 +80,15 @@ function ns.Zoom(direction)
     return ok
 end
 
+-- Shows or hides the zoom buttons, from the minimap button, the options or
+-- a slash command, and keeps everything that shows the state in step.
+function ns.SetPadShown(shown)
+    ns.db.shown = shown and true or false
+    ns.RefreshPad()
+    ns.RefreshOptions()
+    ns.UpdateMinimapButton()
+end
+
 local function Describe()
     if not ns.db.shown then
         return "The zoom buttons are hidden. Type /zoompad show to bring them back."
@@ -99,6 +110,12 @@ SlashCmdList.ZOOMPAD = function(msg)
         ns.db.shown = false
     elseif command == "toggle" then
         ns.db.shown = not ns.db.shown
+    elseif command == "button" then
+        ns.db.minimapButton = not ns.db.minimapButton
+        ns.UpdateMinimapButton()
+        ns.Print("Minimap button " .. (ns.db.minimapButton and "shown." or "hidden. Type /zoompad button to bring it back."))
+        ns.RefreshOptions()
+        return
     elseif command == "lock" then
         ns.db.locked = not ns.db.locked
     elseif command == "reset" then
@@ -109,6 +126,7 @@ SlashCmdList.ZOOMPAD = function(msg)
     else
         ns.Print("/zoompad - open the options")
         ns.Print("/zoompad show, hide or toggle - the zoom buttons on screen")
+        ns.Print("/zoompad button - show or hide the minimap button")
         ns.Print("/zoompad lock - lock or unlock the buttons in place (unlocked, drag them to move)")
         ns.Print("/zoompad reset - put the buttons back in their starting place")
         ns.Print("/zoompad in or out - zoom one step, for a macro")
@@ -117,6 +135,7 @@ SlashCmdList.ZOOMPAD = function(msg)
     ns.Print(Describe())
     ns.RefreshPad()
     ns.RefreshOptions()
+    ns.UpdateMinimapButton()
 end
 
 -- Entry in the minimap's addon list.
@@ -138,4 +157,5 @@ frame:SetScript("OnEvent", function(self, _, loaded)
     self:UnregisterEvent("ADDON_LOADED")
     ns.CreatePad()
     ns.RefreshPad()
+    ns.UpdateMinimapButton()
 end)

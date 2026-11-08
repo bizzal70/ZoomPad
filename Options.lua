@@ -68,6 +68,7 @@ local function CreateRow(parent, y, isCheckbox, getText, isTicked, onClick)
         onClick()
         ns.RefreshOptions()
         ns.RefreshPad()
+        ns.UpdateMinimapButton()
     end)
     controls[#controls + 1] = row
     return row
@@ -75,7 +76,7 @@ end
 
 local function CreateWindow()
     window = CreateFrame("Frame", addonName .. "Options", UIParent)
-    window:SetSize(328, 246)
+    window:SetSize(328, 274)
     window:SetPoint("CENTER")
     window:SetFrameStrata("HIGH")
     window:SetToplevel(true)
@@ -114,22 +115,26 @@ local function CreateWindow()
         function() return "Lock them in place" end,
         function() return ns.db.locked end,
         function() ns.db.locked = not ns.db.locked end)
+    CreateRow(window, -102, true,
+        function() return "Show the minimap button" end,
+        function() return ns.db.minimapButton end,
+        function() ns.db.minimapButton = not ns.db.minimapButton end)
     -- Each of these steps to the next choice.
-    CreateRow(window, -110, false,
+    CreateRow(window, -138, false,
         function() return "Button size: " .. ns.Size().label end,
         nil,
         function() ns.db.size = ns.NextKey(ns.SIZES, ns.db.size) end)
-    CreateRow(window, -142, false,
+    CreateRow(window, -170, false,
         function() return "Zoom per tap: " .. ns.Step().label end,
         nil,
         function() ns.db.step = ns.NextKey(ns.STEPS, ns.db.step) end)
-    CreateRow(window, -174, false,
+    CreateRow(window, -202, false,
         function() return "Put the buttons back where they started" end,
         nil,
         function() ns.db.point = nil end)
 
     local hint = window:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
-    hint:SetPoint("TOPLEFT", 16, -206)
+    hint:SetPoint("TOPLEFT", 16, -234)
     hint:SetWidth(296)
     hint:SetJustifyH("LEFT")
     hint:SetText("Tap + or - to zoom one step; hold to keep zooming. While unlocked, drag either button to move them.")

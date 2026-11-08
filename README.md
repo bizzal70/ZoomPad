@@ -12,12 +12,13 @@ Forever's controller mode zooms only while you hold both bumpers and push the ri
 
 ## Options
 
-Type `/zoompad` to open the options, or use the addon's entry in the minimap's addon list.
+Click the spyglass button on the minimap to hide or show the zoom buttons; right-click it for the options. You can also type `/zoompad`, or use the addon's entry in the minimap's addon list.
 
 | Setting | Command |
 |---|---|
 | Show or hide the zoom buttons | `/zoompad show`, `hide`, `toggle` |
 | Lock them in place | `/zoompad lock` |
+| Show or hide the minimap button | `/zoompad button` |
 | Button size: small, medium or large | in the options |
 | How far each tap zooms: small, medium or large | in the options |
 | Put the buttons back where they started | `/zoompad reset` |
