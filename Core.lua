@@ -30,6 +30,7 @@ ns.DEFAULT_POINT = { "RIGHT", "RIGHT", -40, 60 }
 
 local defaults = {
     shown = true,
+    onlyController = true,   -- the buttons only appear while a controller is connected
     locked = false,
     step = "medium",
     size = "medium",
@@ -82,6 +83,28 @@ function ns.Zoom(direction)
     return ok
 end
 
+-- Whether a controller is connected (a Steam Deck's own controls count).
+-- If this client cannot say, the answer is yes, so the buttons never
+-- vanish for good.
+function ns.ControllerConnected()
+    if not C_GamePad then return true end
+    if C_GamePad.GetAllDeviceIDs then
+        local ok, ids = pcall(C_GamePad.GetAllDeviceIDs)
+        if ok and type(ids) == "table" then return #ids > 0 end
+    end
+    if C_GamePad.GetActiveDeviceID then
+        local ok, id = pcall(C_GamePad.GetActiveDeviceID)
+        if ok then return id ~= nil end
+    end
+    return true
+end
+
+-- Whether the zoom buttons are on screen right now: switched on, and a
+-- controller connected unless that setting is off.
+function ns.PadVisible()
+    return ns.db.shown and (not ns.db.onlyController or ns.ControllerConnected()) and true or false
+end
+
 -- Shows or hides the zoom buttons, from the minimap button, the options or
 -- a slash command, and keeps everything that shows the state in step.
 function ns.SetPadShown(shown)
@@ -94,6 +117,9 @@ end
 local function Describe()
     if not ns.db.shown then
         return "The zoom buttons are hidden. Type /zoompad show to bring them back."
+    end
+    if not ns.PadVisible() then
+        return "The zoom buttons appear when a controller is connected. Type /zoompad always to show them without one."
     end
     return ("The zoom buttons are shown%s. Each tap zooms a %s step."):format(
         ns.db.locked and " and locked in place" or "", ns.Step().label:lower())
@@ -118,6 +144,10 @@ SlashCmdList.ZOOMPAD = function(msg)
         ns.Print("Minimap button " .. (ns.db.minimapButton and "shown." or "hidden. Type /zoompad button to bring it back."))
         ns.RefreshOptions()
         return
+    elseif command == "always" then
+        ns.db.onlyController = not ns.db.onlyController
+        ns.Print(ns.db.onlyController and "The zoom buttons now only appear while a controller is connected."
+            or "The zoom buttons now appear with or without a controller.")
     elseif command == "lock" then
         ns.db.locked = not ns.db.locked
     elseif command == "reset" then
@@ -128,6 +158,7 @@ SlashCmdList.ZOOMPAD = function(msg)
     else
         ns.Print("/zoompad - open the options")
         ns.Print("/zoompad show, hide or toggle - the zoom buttons on screen")
+        ns.Print("/zoompad always - show the buttons with or without a controller (by default only with one)")
         ns.Print("/zoompad button - show or hide the minimap button")
         ns.Print("/zoompad lock - lock or unlock the buttons in place (unlocked, drag them to move)")
         ns.Print("/zoompad reset - put the buttons back in their starting place")
@@ -164,6 +195,18 @@ frame:SetScript("OnEvent", function(self, _, loaded)
     if not ns.db.placed023 then ns.db.minimapAngle = defaults.minimapAngle; ns.db.placed023 = true end
     self:UnregisterEvent("ADDON_LOADED")
     ns.CreatePad()
+    ns.RefreshPad()
+    ns.UpdateMinimapButton()
+end)
+
+-- A controller plugged in or out (or the Steam Deck's controls waking up):
+-- show or hide the buttons to match.
+local padWatcher = CreateFrame("Frame")
+for _, event in ipairs({ "GAME_PAD_CONNECTED", "GAME_PAD_DISCONNECTED", "GAME_PAD_ACTIVE_CHANGED", "PLAYER_ENTERING_WORLD" }) do
+    pcall(padWatcher.RegisterEvent, padWatcher, event)
+end
+padWatcher:SetScript("OnEvent", function()
+    if not ns.db then return end
     ns.RefreshPad()
     ns.UpdateMinimapButton()
 end)

@@ -55,6 +55,30 @@ ns.db.locked = false
 Down(plus); plus.__scripts.OnDragStart(plus); plus.__scripts.OnDragStop(plus)
 check(moved == 1, "unlocked, a drag moves it")
 
+-- only with a controller
+check(ns.db.onlyController, "by default the buttons only appear with a controller")
+check(pad:IsShown(), "a client that cannot say whether one is connected shows them")
+DEVICES = {}
+C_GamePad = { GetAllDeviceIDs = function() return DEVICES end }
+Fire("GAME_PAD_DISCONNECTED")
+check(not pad:IsShown(), "with no controller connected the buttons are hidden")
+local mbIcon = ns.MinimapButton().icon
+local grey
+mbIcon.SetDesaturated = function(_, v) grey = v end
+ns.UpdateMinimapButton()
+check(grey == true, "and the minimap button's icon is grey")
+DEVICES = { 1 }
+Fire("GAME_PAD_CONNECTED", 1)
+check(pad:IsShown(), "connecting a controller (or a Steam Deck's controls) brings them back")
+DEVICES = {}
+Fire("GAME_PAD_DISCONNECTED", 1)
+SlashCmdList.ZOOMPAD("always")
+check(not ns.db.onlyController and pad:IsShown(), "/zoompad always shows them without a controller")
+SlashCmdList.ZOOMPAD("always")
+check(ns.db.onlyController and not pad:IsShown(), "and again goes back to only with one")
+C_GamePad = nil
+Fire("GAME_PAD_CONNECTED")
+
 -- size and step choices
 SlashCmdList.ZOOMPAD("")
 check(ZoomPadOptions:IsShown(), "/zoompad opens the options")
@@ -62,20 +86,22 @@ local rows = {}
 for _, f in ipairs(Frames()) do
     if rawget(f, "Refresh") and f.__scripts.OnClick then rows[#rows + 1] = f end
 end
-check(#rows == 6, "the options have six controls")
+check(#rows == 7, "the options have seven controls")
 rows[1].__scripts.OnClick(rows[1]); check(not ns.db.shown and not pad:IsShown(), "the first hides the buttons")
 rows[1].__scripts.OnClick(rows[1]); check(ns.db.shown and pad:IsShown(), "and shows them again")
-rows[2].__scripts.OnClick(rows[2]); check(ns.db.locked, "the second locks them")
-rows[2].__scripts.OnClick(rows[2])
-rows[3].__scripts.OnClick(rows[3]); check(not ns.db.minimapButton and not ns.MinimapButton():IsShown(), "the third hides the minimap button")
-rows[3].__scripts.OnClick(rows[3]); check(ns.db.minimapButton and ns.MinimapButton():IsShown(), "and shows it again")
-rows[4].__scripts.OnClick(rows[4]); check(ns.db.size == "large", "the fourth makes the buttons bigger")
-rows[4].__scripts.OnClick(rows[4]); check(ns.db.size == "small", "and comes round to small")
-rows[5].__scripts.OnClick(rows[5]); check(ns.db.step == "large", "the fifth makes each tap zoom further")
+rows[2].__scripts.OnClick(rows[2]); check(not ns.db.onlyController, "the second shows them with or without a controller")
+rows[2].__scripts.OnClick(rows[2]); check(ns.db.onlyController, "and back to only with one")
+rows[3].__scripts.OnClick(rows[3]); check(ns.db.locked, "the third locks them")
+rows[3].__scripts.OnClick(rows[3])
+rows[4].__scripts.OnClick(rows[4]); check(not ns.db.minimapButton and not ns.MinimapButton():IsShown(), "the fourth hides the minimap button")
+rows[4].__scripts.OnClick(rows[4]); check(ns.db.minimapButton and ns.MinimapButton():IsShown(), "and shows it again")
+rows[5].__scripts.OnClick(rows[5]); check(ns.db.size == "large", "the fifth makes the buttons bigger")
+rows[5].__scripts.OnClick(rows[5]); check(ns.db.size == "small", "and comes round to small")
+rows[6].__scripts.OnClick(rows[6]); check(ns.db.step == "large", "the sixth makes each tap zoom further")
 CAMERA = 15; Down(plus); Up(plus)
 check(CAMERA == 11, "a large step is 4 yards")
 ns.db.point = { "TOPLEFT", "TOPLEFT", 10, -10 }
-rows[6].__scripts.OnClick(rows[6]); check(ns.db.point == nil and pad.__point[1] == "RIGHT", "the sixth puts the pad back where it started")
+rows[7].__scripts.OnClick(rows[7]); check(ns.db.point == nil and pad.__point[1] == "RIGHT", "the seventh puts the pad back where it started")
 ZoomPad_OnAddonCompartmentClick()
 check(not ZoomPadOptions:IsShown(), "the minimap addon list entry toggles the options")
 

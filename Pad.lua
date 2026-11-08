@@ -145,7 +145,7 @@ function ns.RefreshPad()
     local point = ns.db.point or ns.DEFAULT_POINT
     pad:ClearAllPoints()
     pad:SetPoint(point[1], UIParent, point[2], point[3], point[4])
-    pad:SetShown(ns.db.shown and true or false)
+    pad:SetShown(ns.PadVisible())
 end
 
 function ns.Pad() return pad, buttons end

@@ -1,5 +1,9 @@
 # ZoomPad
 
+## 0.3.0
+
+- The zoom buttons now only appear while a controller is connected (a Steam Deck's own controls count), and go away when you play with mouse and keyboard. The minimap button's icon is grey while they are away. Turn this off in the options, or with `/zoompad always`.
+
 ## 0.2.3
 
 - Fixed: the minimap button drew no icon or border (wrong texture paths), so it sat invisibly on top of other buttons. It now shows its spyglass icon, and is put back at its starting place below-left of the minimap once.

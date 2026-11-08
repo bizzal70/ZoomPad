@@ -57,6 +57,9 @@ local function ShowTooltip(self)
     GameTooltip:SetOwner(self, "ANCHOR_LEFT")
     GameTooltip:AddLine("ZoomPad")
     GameTooltip:AddLine(ns.db.shown and "Click: hide the zoom buttons" or "Click: show the zoom buttons", 1, 1, 1)
+    if ns.db.shown and not ns.PadVisible() then
+        GameTooltip:AddLine("No controller connected: the buttons appear when one is.", 1, 0.82, 0, true)
+    end
     GameTooltip:AddLine("Right-click: options", 1, 1, 1)
     GameTooltip:AddLine("Drag: move this button", 0.7, 0.7, 0.7)
     GameTooltip:Show()
@@ -80,7 +83,7 @@ button:SetScript("OnLeave", function() GameTooltip:Hide() end)
 -- icon while the zoom buttons are hidden.
 function ns.UpdateMinimapButton()
     if not ns.db then return end
-    icon:SetDesaturated(not ns.db.shown)
+    icon:SetDesaturated(not ns.PadVisible())
     if ns.db.minimapButton then
         Place()
         button:Show()
