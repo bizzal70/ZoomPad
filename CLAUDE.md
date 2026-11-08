@@ -16,7 +16,7 @@ On-screen + and - buttons that zoom the camera, made for the Steam Deck touchscr
 - `Core.lua`: settings, slash commands, `ns.Zoom(direction)` which calls `CameraZoomIn` / `CameraZoomOut` with the chosen step (1, 2 or 4 yards) inside `pcall`, and says once if the game refuses.
 - `Pad.lua`: the two buttons. A zoom happens on mouse up for a tap (so a drag never zooms), and repeatedly while held (first repeat after `ns.HOLD_DELAY`, then every `ns.HOLD_EVERY`). Dragging moves the pad unless locked; the place is saved as `{point, relativePoint, x, y}`.
 - `Options.lua`: the options window, in the shared plain-colour style.
-- `MinimapButton.lua` (0.2.0, at the user's request): click toggles the pad (`ns.SetPadShown`), right-click opens the options, drag slides it round the rim (`minimapAngle`, default 3.6); the icon is desaturated while the pad is hidden.
+- `MinimapButton.lua` (0.2.0, at the user's request): click toggles the pad (`ns.SetPadShown`), right-click opens the options, drag slides it round the rim (`minimapAngle`, default -1.9 since 0.2.1; 0.2.0's 3.6 overlapped the user's SessionRecap/GatherLog buttons, so an un-dragged 3.6 is migrated); the icon is desaturated while the pad is hidden.
 - Forever's own controller zoom is LB+RB held with the right stick forward or back (Blizzard's gamepad article, 2026-11).
 - Not yet verified in game: whether `CameraZoomIn`/`CameraZoomOut` are allowed for addons on Forever (the wiki shows no protection, 2026-11-08), whether they work in combat, and how Steam Deck touch reaches the game in Forever's gamepad mode.
 

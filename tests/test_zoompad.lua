@@ -83,7 +83,7 @@ check(not ZoomPadOptions:IsShown(), "the minimap addon list entry toggles the op
 local mb = ns.MinimapButton()
 local desaturated
 mb.icon.SetDesaturated = function(_, v) desaturated = v end
-check(mb:IsShown() and ns.db.minimapAngle == 3.6, "the minimap button is shown on the rim")
+check(mb:IsShown() and ns.db.minimapAngle == -1.9, "the minimap button is shown on the rim, below-left")
 mb.__scripts.OnClick(mb, "LeftButton")
 check(not ns.db.shown and not pad:IsShown() and desaturated == true, "clicking it hides the zoom buttons and greys its icon")
 mb.__scripts.OnClick(mb, "LeftButton")
@@ -93,7 +93,7 @@ check(ZoomPadOptions:IsShown() and ns.db.shown, "right-click opens the options a
 mb.__scripts.OnClick(mb, "RightButton")
 mb.__scripts.OnEnter(mb)
 mb.__scripts.OnDragStart(mb); mb.__scripts.OnUpdate(mb); mb.__scripts.OnDragStop(mb)
-check(ns.db.minimapAngle ~= 3.6, "dragging slides it to a new place on the rim, which is saved")
+check(ns.db.minimapAngle ~= -1.9, "dragging slides it to a new place on the rim, which is saved")
 SlashCmdList.ZOOMPAD("button"); check(not mb:IsShown(), "/zoompad button hides the minimap button")
 SlashCmdList.ZOOMPAD("button"); check(mb:IsShown(), "and brings it back")
 SlashCmdList.ZOOMPAD("hide"); check(desaturated == true, "hiding the zoom buttons any other way greys the icon too")
@@ -116,3 +116,11 @@ ZoomPadDB = { size = "large", shown = false }
 local ns2 = LoadAddon(ADDON_DIR, "ZoomPad")
 Fire("ADDON_LOADED", "ZoomPad")
 check(ns2.db.size == "large" and ns2.db.shown == false and ns2.db.step == "medium", "saved choices are kept and new settings get defaults")
+
+-- a button left where 0.2.0 put it moves; one the player dragged stays
+ZoomPadDB = { minimapAngle = 3.6 }
+local ns3 = LoadAddon(ADDON_DIR, "ZoomPad"); Fire("ADDON_LOADED", "ZoomPad")
+check(ns3.db.minimapAngle == -1.9, "a minimap button never moved from 0.2.0's spot goes to the new one")
+ZoomPadDB = { minimapAngle = 1.2 }
+local ns4 = LoadAddon(ADDON_DIR, "ZoomPad"); Fire("ADDON_LOADED", "ZoomPad")
+check(ns4.db.minimapAngle == 1.2, "a minimap button the player placed stays put")

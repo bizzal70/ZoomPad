@@ -1,5 +1,9 @@
 # ZoomPad
 
+## 0.2.1
+
+- The minimap button now starts below and to the left of the minimap, instead of sitting on top of other addons' buttons. If you had not moved it yet, it moves there by itself. You can still drag it anywhere round the rim.
+
 ## 0.2.0
 
 - A minimap button: click it to hide or show the zoom buttons, right-click for the options, drag it round the minimap. Its icon turns grey while the zoom buttons are hidden. `/zoompad button` or the options hide the minimap button itself.

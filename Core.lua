@@ -35,7 +35,9 @@ local defaults = {
     size = "medium",
     point = nil,   -- { point, relativePoint, x, y } once moved
     minimapButton = true,
-    minimapAngle = 3.6,   -- left of the minimap's top, clear of most other buttons
+    -- Below-left on the rim (radians, 0 = east). Clear of the author's other
+    -- addons' buttons: GatherLog 3.6, SessionRecap 4.4, MacroKit 5.4, AltBoard 2.6.
+    minimapAngle = -1.9,
 }
 
 function ns.Print(msg)
@@ -154,6 +156,9 @@ frame:SetScript("OnEvent", function(self, _, loaded)
         end
     end
     ns.db = ZoomPadDB
+    -- 0.2.0 started the button at 3.6, on top of GatherLog's. If it was never
+    -- dragged, move it to the new starting place.
+    if ns.db.minimapAngle == 3.6 then ns.db.minimapAngle = defaults.minimapAngle end
     self:UnregisterEvent("ADDON_LOADED")
     ns.CreatePad()
     ns.RefreshPad()
