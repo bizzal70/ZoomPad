@@ -238,3 +238,5 @@ CAMERA = 15
 ZOOM_CALLS = 0
 CameraZoomIn = function(yards) ZOOM_CALLS = ZOOM_CALLS + 1; CAMERA = math.max(0, CAMERA - yards) end
 CameraZoomOut = function(yards) ZOOM_CALLS = ZOOM_CALLS + 1; CAMERA = math.min(39, CAMERA + yards) end
+MOUSE_DOWN = true
+IsMouseButtonDown = function() return MOUSE_DOWN end

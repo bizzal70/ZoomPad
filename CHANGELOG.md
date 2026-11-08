@@ -1,5 +1,9 @@
 # ZoomPad
 
+## 0.2.2
+
+- Fixed: the minimap button could keep following the mouse after a drag, and then move together with another addon's button sitting on top of it. It now stops the moment you let go.
+
 ## 0.2.1
 
 - The minimap button now starts below and to the left of the minimap, instead of sitting on top of other addons' buttons. If you had not moved it yet, it moves there by itself. You can still drag it anywhere round the rim.

@@ -94,6 +94,13 @@ mb.__scripts.OnClick(mb, "RightButton")
 mb.__scripts.OnEnter(mb)
 mb.__scripts.OnDragStart(mb); mb.__scripts.OnUpdate(mb); mb.__scripts.OnDragStop(mb)
 check(ns.db.minimapAngle ~= -1.9, "dragging slides it to a new place on the rim, which is saved")
+-- the game never sends OnDragStop: the button stops by itself once the mouse button is up
+mb.__scripts.OnDragStart(mb)
+check(mb.__scripts.OnUpdate ~= nil, "while dragging, the button follows the cursor")
+MOUSE_DOWN = false
+mb.__scripts.OnUpdate(mb)
+check(mb.__scripts.OnUpdate == nil, "once the mouse button is up it stops following, even without OnDragStop")
+MOUSE_DOWN = true
 SlashCmdList.ZOOMPAD("button"); check(not mb:IsShown(), "/zoompad button hides the minimap button")
 SlashCmdList.ZOOMPAD("button"); check(mb:IsShown(), "and brings it back")
 SlashCmdList.ZOOMPAD("hide"); check(desaturated == true, "hiding the zoom buttons any other way greys the icon too")
