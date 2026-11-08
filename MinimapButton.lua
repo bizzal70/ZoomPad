@@ -58,7 +58,7 @@ local function ShowTooltip(self)
     GameTooltip:AddLine("ZoomPad")
     GameTooltip:AddLine(ns.db.shown and "Click: hide the zoom buttons" or "Click: show the zoom buttons", 1, 1, 1)
     if ns.db.shown and not ns.PadVisible() then
-        GameTooltip:AddLine("No controller connected: the buttons appear when one is.", 1, 0.82, 0, true)
+        GameTooltip:AddLine("No controller used yet: the buttons appear once you use one.", 1, 0.82, 0, true)
     end
     GameTooltip:AddLine("Right-click: options", 1, 1, 1)
     GameTooltip:AddLine("Drag: move this button", 0.7, 0.7, 0.7)
@@ -85,8 +85,8 @@ function ns.UpdateMinimapButton()
     if not ns.db then return end
     icon:SetDesaturated(not ns.PadVisible())
     -- Like the zoom buttons, the minimap button stays away while no
-    -- controller is connected (unless that setting is off).
-    local controllerOk = not ns.db.onlyController or ns.ControllerConnected()
+    -- controller has been used (unless that setting is off).
+    local controllerOk = not ns.db.onlyController or ns.ControllerInUse()
     if ns.db.minimapButton and controllerOk then
         Place()
         button:Show()

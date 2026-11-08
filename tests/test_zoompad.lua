@@ -57,27 +57,24 @@ check(moved == 1, "unlocked, a drag moves it")
 
 -- only with a controller
 check(ns.db.onlyController, "by default the buttons only appear with a controller")
-check(pad:IsShown(), "a client that cannot say whether one is connected shows them")
-DEVICES = {}
-C_GamePad = { GetAllDeviceIDs = function() return DEVICES end }
-Fire("GAME_PAD_DISCONNECTED")
-check(not pad:IsShown(), "with no controller connected the buttons are hidden")
-local mbIcon = ns.MinimapButton().icon
-local grey
-mbIcon.SetDesaturated = function(_, v) grey = v end
-ns.UpdateMinimapButton()
+check(pad:IsShown(), "a client without controller support shows them")
+C_GamePad = {}
+ns.RefreshPad(); ns.UpdateMinimapButton()
+check(not pad:IsShown(), "until a controller is used the buttons are hidden, even with one connected")
 check(not ns.MinimapButton():IsShown(), "and the minimap button is hidden too")
-DEVICES = { 1 }
-Fire("GAME_PAD_CONNECTED", 1)
-check(pad:IsShown() and ns.MinimapButton():IsShown(), "connecting a controller (or a Steam Deck's controls) brings them and the minimap button back")
-DEVICES = {}
-Fire("GAME_PAD_DISCONNECTED", 1)
+Fire("GAME_PAD_ACTIVE_CHANGED", false)
+check(not pad:IsShown(), "switching to mouse and keyboard keeps them hidden")
+Fire("GAME_PAD_ACTIVE_CHANGED", true)
+check(pad:IsShown() and ns.MinimapButton():IsShown(), "using a controller (or a Steam Deck's controls) brings them and the minimap button out")
+Fire("GAME_PAD_ACTIVE_CHANGED", false)
+check(pad:IsShown(), "and a touchscreen tap (the mouse) does not hide them again")
+ns.controllerUsed = false
 SlashCmdList.ZOOMPAD("always")
 check(not ns.db.onlyController and pad:IsShown(), "/zoompad always shows them without a controller")
 SlashCmdList.ZOOMPAD("always")
 check(ns.db.onlyController and not pad:IsShown(), "and again goes back to only with one")
 C_GamePad = nil
-Fire("GAME_PAD_CONNECTED")
+ns.RefreshPad(); ns.UpdateMinimapButton()
 
 -- size and step choices
 SlashCmdList.ZOOMPAD("")

@@ -1,5 +1,9 @@
 # ZoomPad
 
+## 0.3.2
+
+- The zoom buttons and the minimap button now appear once you actually use a controller (a button or a stick), not merely when one is connected: some PCs report controllers that are not being used. They then stay until you log out, so tapping the screen does not hide them.
+
 ## 0.3.1
 
 - The minimap button also goes away while no controller is connected, like the zoom buttons. `/zoompad` still opens the options.

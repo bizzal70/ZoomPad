@@ -112,7 +112,7 @@ local function CreateWindow()
         function() return ns.db.shown end,
         function() ns.db.shown = not ns.db.shown end)
     CreateRow(window, -74, true,
-        function() return "Only while a controller is connected" end,
+        function() return "Only once I use a controller" end,
         function() return ns.db.onlyController end,
         function() ns.db.onlyController = not ns.db.onlyController end)
     CreateRow(window, -102, true,
