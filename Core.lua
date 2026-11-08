@@ -159,6 +159,9 @@ frame:SetScript("OnEvent", function(self, _, loaded)
     -- 0.2.0 started the button at 3.6, on top of GatherLog's. If it was never
     -- dragged, move it to the new starting place.
     if ns.db.minimapAngle == 3.6 then ns.db.minimapAngle = defaults.minimapAngle end
+    -- Before 0.2.3 the button drew no icon, and many ended up hidden under
+    -- another addon's button. Put it back at the start once.
+    if not ns.db.placed023 then ns.db.minimapAngle = defaults.minimapAngle; ns.db.placed023 = true end
     self:UnregisterEvent("ADDON_LOADED")
     ns.CreatePad()
     ns.RefreshPad()

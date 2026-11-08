@@ -1,5 +1,9 @@
 # ZoomPad
 
+## 0.2.3
+
+- Fixed: the minimap button drew no icon or border (wrong texture paths), so it sat invisibly on top of other buttons. It now shows its spyglass icon, and is put back at its starting place below-left of the minimap once.
+
 ## 0.2.2
 
 - Fixed: the minimap button could keep following the mouse after a drag, and then move together with another addon's button sitting on top of it. It now stops the moment you let go.

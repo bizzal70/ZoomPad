@@ -10,25 +10,25 @@ button:SetFrameStrata("MEDIUM")
 button:SetFrameLevel(8)
 button:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 button:RegisterForDrag("LeftButton")
-button:SetHighlightTexture("Interface\Minimap\UI-Minimap-ZoomButton-Highlight")
+button:SetHighlightTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight")
 button:Hide()
 
 local background = button:CreateTexture(nil, "BACKGROUND")
 background:SetSize(24, 24)
 background:SetPoint("CENTER")
-background:SetTexture("Interface\Minimap\UI-Minimap-Background")
+background:SetTexture("Interface\\Minimap\\UI-Minimap-Background")
 
 local icon = button:CreateTexture(nil, "ARTWORK")
 icon:SetSize(18, 18)
 icon:SetPoint("CENTER")
-icon:SetTexture("Interface\Icons\INV_Misc_Spyglass_03")
+icon:SetTexture("Interface\\Icons\\INV_Misc_Spyglass_03")
 icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 button.icon = icon
 
 local border = button:CreateTexture(nil, "OVERLAY")
 border:SetSize(50, 50)
 border:SetPoint("TOPLEFT")
-border:SetTexture("Interface\Minimap\MiniMap-TrackingBorder")
+border:SetTexture("Interface\\Minimap\\MiniMap-TrackingBorder")
 
 local function Place()
     local angle = ns.db.minimapAngle

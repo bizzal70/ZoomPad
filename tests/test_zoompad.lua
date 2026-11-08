@@ -125,9 +125,17 @@ Fire("ADDON_LOADED", "ZoomPad")
 check(ns2.db.size == "large" and ns2.db.shown == false and ns2.db.step == "medium", "saved choices are kept and new settings get defaults")
 
 -- a button left where 0.2.0 put it moves; one the player dragged stays
-ZoomPadDB = { minimapAngle = 3.6 }
+ZoomPadDB = { minimapAngle = 3.6, placed023 = true }
 local ns3 = LoadAddon(ADDON_DIR, "ZoomPad"); Fire("ADDON_LOADED", "ZoomPad")
 check(ns3.db.minimapAngle == -1.9, "a minimap button never moved from 0.2.0's spot goes to the new one")
-ZoomPadDB = { minimapAngle = 1.2 }
+ZoomPadDB = { minimapAngle = 1.2, placed023 = true }
 local ns4 = LoadAddon(ADDON_DIR, "ZoomPad"); Fire("ADDON_LOADED", "ZoomPad")
 check(ns4.db.minimapAngle == 1.2, "a minimap button the player placed stays put")
+
+-- texture paths keep their backslashes (lost once, which made the button invisible)
+local h = io.open(ADDON_DIR .. "/MinimapButton.lua"); local src = h:read("*a"); h:close()
+local B = string.char(92)
+check(not src:find('"Interface' .. B .. "%a") and src:find('"Interface' .. B .. B .. "Icons"), "texture paths in MinimapButton.lua use doubled backslashes")
+ZoomPadDB = { minimapAngle = 2.88 }
+local ns5 = LoadAddon(ADDON_DIR, "ZoomPad"); Fire("ADDON_LOADED", "ZoomPad")
+check(ns5.db.minimapAngle == -1.9 and ns5.db.placed023, "a button from before 0.2.3 is put back at the start once")
