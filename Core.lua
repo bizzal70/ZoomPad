@@ -37,7 +37,7 @@ local defaults = {
     point = nil,   -- { point, relativePoint, x, y } once moved
     minimapButton = true,
     -- Below-left on the rim (radians, 0 = east). Clear of the author's other
-    -- addons' buttons: GatherLog 3.6, SessionRecap 4.4, MacroKit 5.4, AltBoard 2.6.
+    -- addons' buttons: GatherLog 3.6, SessionRecap 4.4, MacroKit 5.4, AltGlance 2.6.
     minimapAngle = -1.9,
 }
 
