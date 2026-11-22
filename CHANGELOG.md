@@ -1,5 +1,9 @@
 # ZoomPad
 
+## 0.3.3
+
+- **Controller:** the B button now closes ZoomPad's window, like the X and Escape. While one is open, B closes it; once it is closed, B does whatever you have it set to again.
+
 ## 0.3.2
 
 - The zoom buttons and the minimap button now appear once you actually use a controller (a button or a stick), not merely when one is connected: some PCs report controllers that are not being used. They then stay until you log out, so tapping the screen does not hide them.

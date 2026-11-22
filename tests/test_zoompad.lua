@@ -162,3 +162,24 @@ check(not src:find('"Interface' .. B .. "%a") and src:find('"Interface' .. B .. 
 ZoomPadDB = { minimapAngle = 2.88 }
 local ns5 = LoadAddon(ADDON_DIR, "ZoomPad"); Fire("ADDON_LOADED", "ZoomPad")
 check(ns5.db.minimapAngle == -1.9 and ns5.db.placed023, "a button from before 0.2.3 is put back at the start once")
+
+-- The controller's B button closes the addon's windows while they are shown.
+do
+    local bound = {}
+    SetOverrideBinding = function(owner, _, key, command) bound[owner] = { key = key, command = command } end
+    ClearOverrideBindings = function(owner) bound[owner] = nil end
+    local w = CreateFrame("Frame", "PadCloseTestWindow", UIParent)
+    w.HookScript = function(self, event, fn)
+        local previous = self.__scripts[event]
+        self.__scripts[event] = previous and function(...) previous(...); fn(...) end or fn
+    end
+    w:Hide()
+    ns.CloseWithPadB(w, "PadCloseTestWindow")
+    w:Show(); w.__scripts.OnShow(w)
+    check(bound[w] and bound[w].key == "PAD2" and bound[w].command == "CLICK PadCloseTestWindowPadClose:LeftButton",
+        "while a window is shown, the controller's B button is set to close it")
+    w.padClose.__scripts.OnClick(w.padClose)
+    check(not w:IsShown(), "pressing B closes it")
+    w.__scripts.OnHide(w)
+    check(bound[w] == nil, "and B gets its usual job back once it is closed")
+end
