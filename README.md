@@ -48,6 +48,7 @@ Other small addons for World of Warcraft: Forever, all free:
 - **[SessionRecap](https://www.curseforge.com/wow/addons/sessionrecap)** keeps a running tally of your play session: gold, experience per hour, quests, gathering and loot.
 - **[MacroKit](https://www.curseforge.com/wow/addons/macrokit)** adds ready-made macros for your class and spec, for all nine classes, and never overwrites your own.
 - **[GamepadMacros](https://www.curseforge.com/wow/addons/gamepadmacros)** adds ready-made macros for controller and Steam Deck players: heal yourself, use a quest item, save and wear gear, leave a group, emotes.
+- **[FDR - Flight Data Recorder](https://www.curseforge.com/wow/addons/fdr-flight-data-recorder)** times every flight-master flight and counts your next one down to landing.
 
 ## Installing
 
